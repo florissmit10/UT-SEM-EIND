@@ -3,5 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib"/>
+	<classpathentry kind="lib" path="/home/floris/Documents/Workspaces/SEM/UT-SEM-EIND/lib/src.jar"/>
+	<classpathentry kind="lib" path="/home/floris/Documents/Workspaces/SEM/UT-SEM-EIND/lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/joda-time-2.1.jar" sourcepath="lib/joda-time-2.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
