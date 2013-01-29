@@ -1,6 +1,7 @@
 package sem.eind.net;
 
-public enum Error {
+public enum ErrorCodes {
+	NOERROR,
 	DEFAULT,
 	NOTAVAILABLE;
 

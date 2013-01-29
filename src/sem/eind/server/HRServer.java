@@ -2,6 +2,8 @@ package sem.eind.server;
 
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
+import sem.eind.net.Command;
+import sem.eind.net.ErrorCodes;
 
 public class HRServer extends AbstractServer {
 	 //Class variables *************************************************
@@ -19,7 +21,17 @@ public class HRServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		// TODO Auto-generated method stub
+		
+		String[] args =((String) msg).split(" ");
+		ErrorCodes error=null;
+		Command command;
+		try {
+			command = 	Command.values()[Integer.parseInt(args[0])];
+			error = 	ErrorCodes.values()[Integer.parseInt(args[1])];
+			handleCommand(command, error, args,client);
+		} catch (NumberFormatException e) {
+			// TODO: handle exception			
+		}
 		
 	}
 
@@ -48,8 +60,9 @@ public class HRServer extends AbstractServer {
 	   */
 	  @Override
 		protected void clientConnected(ConnectionToClient client) {
+		  System.out.println("Client");
 	
-			super.clientConnected(client);
+		  super.clientConnected(client);
 		}
 	  /**
 	   * Called when a client connects to the server.
@@ -68,6 +81,32 @@ public class HRServer extends AbstractServer {
 
 		  super.clientException(client, exception);
 		}
+	  
+	  public void handleCommand(Command command, ErrorCodes error, String[] args, ConnectionToClient client){
+
+	//TODO invulling geven aan methoden.
+	System.out.println(command+" "+ error+" "+ args+" "+client);
+	  switch (command) {
+	  	case CHECKIN:
+			
+			break;
+		case CHECKUIT:
+			
+			break;
+		case RESERVERING:
+			
+			break;
+		case ANNULEERRESERVERING:
+			
+			break;
+		case REKENING:
+		
+			break;
+
+		default:
+			break;
+		}
+	  }
 	
 	  
 	//Class methods ***************************************************
