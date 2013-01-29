@@ -63,6 +63,10 @@ public class ClientConsole implements DisplayIF
       while (true)
       {
         message = fromConsole.readLine();
+        
+        //Hier moeten dingen gebeuren dat er alleen een commando naar de client gestuurd wordt.
+        //eventueel hulpmethode maken
+        
         client.handleMessageFromClientUI(message);
       }
     }
@@ -84,6 +88,18 @@ public class ClientConsole implements DisplayIF
     System.out.println("> " + message);
   }
 
+  
+  public boolean promptBoolean(String question){
+	  return false;
+  }
+  
+  public String promptString(String question){
+	  return "";
+  }
+  
+  public int promptInt(String question){
+	  return 0;
+  }
 
   //Class methods ***************************************************
 
