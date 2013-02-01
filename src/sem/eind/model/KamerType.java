@@ -1,7 +1,6 @@
 package sem.eind.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class KamerType {
 	
@@ -11,10 +10,10 @@ public class KamerType {
 	
 	private final ArrayList<Bed> bedden;
 	
+	private final ArrayList<Reservering> reserveringen=new ArrayList<Reservering>();
+	
 	private final double maximumprijs;
-	
-	private String qualitylevel="moeten we hier nog iets mee?";
-	
+		
 	public KamerType(boolean rokenToegestaan, ArrayList<Bed> bedden, double maxprijs){
 		this.rokenToegestaan=rokenToegestaan;
 		this.bedden=bedden;
@@ -30,8 +29,20 @@ public class KamerType {
 		kamers.remove(k);
 	}
 
-	public List<Kamer> getKamers(){
+	public ArrayList<Kamer> getKamers(){
 		return kamers;
+	}
+	
+	public int getAantalKamers(){
+		return kamers.size();
+	}
+	
+	public int getAantalSlaapplekken(){
+		int returnable=0;
+		for(Bed b:getBedden()){
+			returnable=+b.getNumberOfPersons();
+		}
+		return returnable;
 	}
 
 
@@ -39,8 +50,18 @@ public class KamerType {
 		return rokenToegestaan;
 	}
 	
+
+	
 	public ArrayList<Bed> getBedden() {
 		return bedden;
+	}
+
+	public ArrayList<Reservering> getReserveringen() {
+		return reserveringen;
+	}
+	
+	public void addReservering(Reservering r){
+		reserveringen.add(r);
 	}
 
 	public double getMaximumprijs() {
