@@ -24,7 +24,7 @@ public class Kamer {
 		if(type==null)
 			throw new IllegalArgumentException("Kamer kan niet geïnitialiseerd worden zonder kamertype");
 		if(nummer<0)
-			throw new IllegalAnnotationException("Kamer kan niet geïnitialiseerd worden met een negatief kamernummer");
+			throw new IllegalArgumentException("Kamer kan niet geïnitialiseerd worden met een negatief kamernummer");
 		this.type=type;
 		this.nummer=nummer;
 		this.type.addKamer(this);
