@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+import sem.eind.client.prompt.Prompt;
+import sem.eind.net.Command;
+import sem.eind.net.ErrorCodes;
 
 public class ClientConsole implements DisplayIF
 {
@@ -21,6 +23,8 @@ public class ClientConsole implements DisplayIF
    * The instance of the client that created this ConsoleChat.
    */
   HRClient client;
+  
+  BufferedReader fromConsole;
 
 
   //Constructors ****************************************************
@@ -54,29 +58,43 @@ public class ClientConsole implements DisplayIF
    */
   public void accept()
   {
-    try
-    {
-      BufferedReader fromConsole =
+     fromConsole =
         new BufferedReader(new InputStreamReader(System.in));
       String message;
-
+      printMenu();
       while (true)
       {
-        message = fromConsole.readLine();
+        message = readLine();
+        Command command;
         
-        //Hier moeten dingen gebeuren dat er alleen een commando naar de client gestuurd wordt.
-        //eventueel hulpmethode maken
-        
-        client.handleMessageFromClientUI(message);
+        try{
+        	command = Command.values()[Integer.parseInt(message.split(" ")[0])];
+        }catch(NumberFormatException E){
+        	display("Het eerste woord dient het getal te zijn wat overeenkomt met een keuze uit het menu");
+        	continue;
+        }
+        String result=""+command.ordinal()+Command.DELIM+ErrorCodes.NOERROR.ordinal();
+        System.out.println(result);
+        for(Prompt prompt:command.getPrompts()){
+			boolean promptFilled=false;
+        	while(!promptFilled){
+        		display(prompt.getPrompt());
+    			message= readLine();
+
+    			if(prompt.parseInput(message)){
+    				result=result+Command.DELIM+message;
+    				promptFilled=true;
+    			}
+    			else{
+    				display(prompt.getPrompt());
+    			}
+    		}
+        }
+        client.handleMessageFromClientUI(result);
       }
     }
-    catch (Exception ex)
-    {
-      System.out.println
-        ("Unexpected error while reading from console!");
-    }
-  }
-
+    
+  
   /**
    * This method overrides the method in the ChatIF interface.  It
    * displays a message onto the screen.
@@ -85,20 +103,28 @@ public class ClientConsole implements DisplayIF
    */
   public void display(String message)
   {
-    System.out.println("> " + message);
+    System.out.println(message);
   }
+  
+  private String readLine(){
+	  String line="";
+	try {
+		line = fromConsole.readLine();
+	}
+	catch (Exception ex){
+	      System.out.println("Unexpected error while reading from console!");
+	    }
+	  
+	  return line;
+  }
+  
+  private void printMenu(){
+	 display("Hotel reserverings systeem");
+	 display("Maak uw keuze:");
+	 for(Command c:Command.values()){
+		 display(c.toString());
+	 }
 
-  
-  public boolean promptBoolean(String question){
-	  return false;
-  }
-  
-  public String promptString(String question){
-	  return "";
-  }
-  
-  public int promptInt(String question){
-	  return 0;
   }
 
   //Class methods ***************************************************
@@ -138,5 +164,16 @@ public class ClientConsole implements DisplayIF
     ClientConsole chat= new ClientConsole(host, port);
     chat.accept();  //Wait for console data
   }
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
-//End of ConsoleChat class
+
+//End of ClientConsole class
