@@ -32,6 +32,8 @@ public class Reservering {
 		dagVanAankomst=new LocalDate(year, month, day);
 		dagVanVertrek=new LocalDate(year,month, day).plusDays(numberOfDays);
 		reserveringsNummer=RESERVERIGNSCOUNTER;
+		if(reserveringen==null)
+			reserveringen=new HashMap<Integer, Reservering>();
 		reserveringen.put(reserveringsNummer, this);
 		RESERVERIGNSCOUNTER++;
 	}

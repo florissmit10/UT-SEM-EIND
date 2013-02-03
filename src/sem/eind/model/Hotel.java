@@ -93,17 +93,16 @@ public class Hotel {
 	}
 	
 	public String maakReservering(Integer[] datum,Integer numberOfDays,Integer[] bedden, Boolean isRoken)throws HotelException{
-		System.out.println("maakReservering");
 		KamerType type=getKamerType(bedden, isRoken);
 		int nummer =maakReservering(type, datum, numberOfDays);
-		return "Het maken van de reservering is gelukt. Uw reserveringsnummer is "+nummer;
+		return "Het maken van de reservering is gelukt. Uw reserveringsnummer is "+nummer+"";
 	}
 
 	public String annulleerReservering(Integer reserveringsnummer) throws HotelException{
 		System.out.println("annulleerReservering");
 		Reservering reservering= Reservering.getReserveringForNummer(reserveringsnummer);
 		if(reservering==null)
-			throw new HotelException("", ErrorCodes.NOTFOUND);
+			throw new HotelException("De reservering met nummer: "+reserveringsnummer+" bestaat niet.", ErrorCodes.NOTFOUND);
 		reservering.annuleer();
 		return "De reservering met nummer "+reservering.getReserveringsNummer()+" is geannuleerd";
 	}
@@ -169,7 +168,7 @@ public class Hotel {
 			if(res.heeftOverlap(aankomst, vertrek))
 				numberOfOverlappingReservations++;
 		}
-		if(numberOfOverlappingReservations<kamerType.getAantalSlaapplekken()){
+		if(numberOfOverlappingReservations<kamerType.getAantalKamers()){
 			Reservering reservering=new Reservering(kamerType, datum[0],datum[1],datum[2], numberOfDays);
 			kamerType.addReservering(reservering);
 			return reservering.getReserveringsNummer();

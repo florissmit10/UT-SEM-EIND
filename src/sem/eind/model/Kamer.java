@@ -53,10 +53,6 @@ public class Kamer {
 		this.rekening=r;
 	}
 
-	
-
-
-
 	public double getPrijs() {
 		return type.getMaximumprijs()*(isHoogtarief?1:0.75);
 	}
