@@ -27,7 +27,12 @@ public class BooleanPrompt extends Prompt<Boolean>{
 	 */
 	@Override
 	public Boolean parseObjectFromString(String string) {
-		return Boolean.parseBoolean(string);
+		if(string.equalsIgnoreCase("ja")){
+			return true;
+		}else if(string.equalsIgnoreCase("nee")){
+			return false;
+		}
+		return null;
 	}
 	/**
 	 * {@inheritDoc}
