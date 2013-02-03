@@ -3,6 +3,8 @@ package sem.eind.client;
 import java.io.IOException;
 
 import ocsf.client.AbstractClient;
+import sem.eind.net.Command;
+import sem.eind.net.ErrorCodes;
 
 /**
  * This class overrides some of the methods defined in the abstract
@@ -52,10 +54,28 @@ public class HRClient extends AbstractClient
    * @param msg The message from the server.
    */
   public void handleMessageFromServer(Object msg){
-    clientUI.display(msg.toString());
-  }
+	  if(msg!=null){
+	  String[] args =((String) msg).split(""+Command.DELIM);
+		ErrorCodes error=null;
+		try {
+			error = ErrorCodes.values()[Integer.parseInt(args[0])];
+		}
+		catch (NumberFormatException e) {
+				System.out.println("Commando gekregen van server zonder errorcode");			
+			}
+		String[] arguments=new String[args.length-1];
+		for(int i=0;i<args.length-1;i++){
+			arguments[i]=args[i+1];
+		}
+		clientUI.display(arguments[0]);
+		clientUI.printMenu();
+	  }
+		}
 
-  /**
+
+
+
+/**
    * This method handles all data coming from the UI
    *
    * @param message The message from the UI.

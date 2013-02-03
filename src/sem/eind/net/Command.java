@@ -8,7 +8,8 @@ public enum Command {
 	CHECKIN("Inchecken van gasten in een kamer","checkin",new Prompt[]{
 														new MultipleIntPrompt("Welke bedden moeten er in de kamer zijn?", Bed.values()),
 														new BooleanPrompt("Roken?"),
-														new StringPrompt("Geef de namen van de gasten: (gescheiden door komma's)")}),
+														new StringPrompt("Geef de namen van de gasten: (gescheiden door komma's)"),
+														new BooleanPrompt("Hoog tarief?"),}),
 	CHECKUIT("Uitchecken van gasten uit een kamer","checkUit",new Prompt[]{
 														new IntegerPrompt("Welk kamernummer?")}),
 	RESERVERING("Reserveren van een kamer","maakReservering",new Prompt[]{
@@ -21,7 +22,10 @@ public enum Command {
 	}),
 	REKENING( "Uitprinten van een rekening","getRekening",new Prompt[]{
 														new IntegerPrompt("Wat is uw reserveringsnummer?")
-	});
+	}),
+	VOLGENDEDAG(" De tijd vooruit zetten(test doeleinden)","addDagen", new Prompt[]{
+														new IntegerPrompt("Hoeveel dagen moet de tijd vooruit gaan?")}),
+	PRINTSTATUS("Print de bezetting en status van het hele hotel", "toString", new Prompt[]{});
 	
 	public static final char DELIM='\u0000';
 	private Prompt<?>[] prompts;

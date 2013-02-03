@@ -29,20 +29,20 @@ public class HRServer extends AbstractServer {
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
 		String[] args =((String) msg).split(""+Command.DELIM);
-		System.out.println(args);	
 		ErrorCodes error=null;
-		Command command;
+		Command command=null;
 		try {
 			command = 	Command.values()[Integer.parseInt(args[0])];
 			error = 	ErrorCodes.values()[Integer.parseInt(args[1])];
+		} catch (NumberFormatException e) {
+			System.out.println("Commando gekregen van client: "+client.getName()+" waarvan de eerste en/of tweede argumenten geen nummer is");			
+		}
 			String[] arguments=new String[args.length-2];
 			for(int i=0;i<args.length-2;i++){
 				arguments[i]=args[i+2];
 			}
 			handleCommand(command, error, arguments,client);
-		} catch (NumberFormatException e) {
-			System.out.println("Commando gekregen van client: "+client.getName()+" waarvan de eerste en/of tweede argumenten geen nummer is");			
-		}
+		
 	}
 
 	  /**
@@ -93,12 +93,10 @@ public class HRServer extends AbstractServer {
 		}
 	  
 	  public void handleCommand(Command command, ErrorCodes error, String[] args, ConnectionToClient client){
-
-		  System.out.println(command.name()+" "+ error.name()+" "+ args+" "+client);
 			try {
 				Method methodToExecute = hotel.getClass().getDeclaredMethod(command.getCallableMethodName(),command.getArgumentTypes());
 				String response=(String)methodToExecute.invoke(hotel, unWrapArguments(command.getPrompts(), args));
-				client.sendToClient(response);
+				sendCommandToClient(ErrorCodes.NOERROR,new String[]{response},client);
 			
 			}catch(InvocationTargetException e){
 				if(e.getCause() instanceof HotelException){
@@ -119,15 +117,16 @@ public class HRServer extends AbstractServer {
 	  }
 	  
 	  private void handleException(HotelException e, ConnectionToClient client){
-		  sendCommandToClient(e.getError(), new String[]{e.getClassname()}, client);
+		  sendCommandToClient(e.getError(), new String[]{e.getMessage()}, client);
 		  }
 	    
 	  private void sendCommandToClient(ErrorCodes error, String[] args, ConnectionToClient client){
-		  String message=""+Command.DELIM+error.ordinal()+Command.DELIM;
+		  String message=""+error.ordinal();
 		  for(String s:args){
 			  message=message+Command.DELIM+s;
 		  }
 		  try {
+			  System.out.println(message.replaceAll(Command.DELIM+"", "!,!"));
 			client.sendToClient(message);
 		} catch (IOException e) {
 			System.out.println("Er is een probleem met het verzenden van een commando naar de client");

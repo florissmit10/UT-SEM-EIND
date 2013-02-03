@@ -117,12 +117,13 @@ public class ClientConsole implements DisplayIF
 	  
 	  return line;
   }
-  
-  private void printMenu(){
+  @Override
+  public void printMenu(){
 	 display("Hotel reserverings systeem");
 	 display("Maak uw keuze:");
-	 for(Command c:Command.values()){
-		 display(c.toString());
+	 Command[] commands=Command.values();
+	 for(int i=0;i<commands.length;i++){
+		 display(i+") "+commands[i].toString());
 	 }
 
   }

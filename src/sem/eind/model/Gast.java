@@ -29,4 +29,8 @@ public class Gast {
 		this.kamer = kamer;
 	}
 
+	@Override
+	public String toString(){
+		return naam;
+	}
 }

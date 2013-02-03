@@ -3,17 +3,16 @@ package sem.eind.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.xml.internal.txw2.IllegalAnnotationException;
-
-import sem.eind.net.ErrorCodes;
-import sem.eind.net.HotelException;
-
 public class Kamer {
 	private ArrayList<Gast> gasten=new ArrayList<Gast>();
 	
 	private final KamerType type;
 	
+	private Rekening rekening=new Rekening();
+	
 	private final int nummer;
+	
+	private boolean isHoogtarief=false;
 /**
  * 
  * @param type
@@ -45,5 +44,29 @@ public class Kamer {
 	public int getNummer() {
 		return nummer;
 	}
+
+	public Rekening getRekening() {
+		return rekening;
+	}
 	
+	public void setRekening(Rekening r){
+		this.rekening=r;
+	}
+
+	
+
+
+
+	public double getPrijs() {
+		return type.getMaximumprijs()*(isHoogtarief?1:0.75);
+	}
+
+	public void setHoogtarief(Boolean isHoogTarief) {
+		this.isHoogtarief=isHoogTarief;
+	}
+	
+	@Override
+	public String toString(){
+	return "Kamer "+getNummer()+" Gasten: "+(getGasten().isEmpty()?"Leeg":getGasten().toString());
+	}
 }
