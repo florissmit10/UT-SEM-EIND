@@ -81,7 +81,7 @@ public class ClientConsole implements DisplayIF
         		display(prompt.getPrompt());
     			message= readLine();
 
-    			if(prompt.parseInput(message)){
+    			if(prompt.isInputValid(message)){
     				result=result+Command.DELIM+message;
     				promptFilled=true;
     			}

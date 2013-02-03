@@ -51,8 +51,7 @@ public class HRClient extends AbstractClient
    *
    * @param msg The message from the server.
    */
-  public void handleMessageFromServer(Object msg)
-  {
+  public void handleMessageFromServer(Object msg){
     clientUI.display(msg.toString());
   }
 
@@ -91,6 +90,7 @@ public class HRClient extends AbstractClient
   
   @Override
 	protected void connectionException(Exception exception) {
+	  exception.printStackTrace();
 	  clientUI.display("Connection to the server has been terminated. Client will now shutdown.");
 	  quit();
 	}

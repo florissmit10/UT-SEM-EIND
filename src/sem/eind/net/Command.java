@@ -1,39 +1,35 @@
 package sem.eind.net;
 
-import sem.eind.client.prompt.BooleanPrompt;
-import sem.eind.client.prompt.DatePrompt;
-import sem.eind.client.prompt.IntegerPrompt;
-import sem.eind.client.prompt.Prompt;
-import sem.eind.client.prompt.StringPrompt;
+import sem.eind.client.prompt.*;
+
+import sem.eind.model.KamerType.Bed;
 
 public enum Command {
-	CHECKIN("Inchecken van gasten in een kamer",new Prompt[]{
-														new IntegerPrompt("Hoeveel eenpersoonsbedden?"),
-														new IntegerPrompt("Hoeveel kinderbedden?"), 
-														new IntegerPrompt("Hoeveel tweepersoonsbedden?"), 
+	CHECKIN("Inchecken van gasten in een kamer","checkin",new Prompt[]{
+														new MultipleIntPrompt("Welke bedden moeten er in de kamer zijn?", Bed.values()),
 														new BooleanPrompt("Roken?"),
 														new StringPrompt("Geef de namen van de gasten: (gescheiden door komma's)")}),
-	CHECKUIT("Uitchecken van gasten uit een kamer",new Prompt[]{
+	CHECKUIT("Uitchecken van gasten uit een kamer","checkUit",new Prompt[]{
 														new IntegerPrompt("Welk kamernummer?")}),
-	RESERVERING("Reserveren van een kamer",new Prompt[]{
-														new DatePrompt("Welke datum zou u aan willen komen?"),
+	RESERVERING("Reserveren van een kamer","maakReservering",new Prompt[]{
+														new MultipleIntPrompt("Welke datum zou u aan willen komen?",new String[]{"jaar","maand", "dag"}),
 														new IntegerPrompt("Hoeveel nachten wilt u verblijven?"),
-														new IntegerPrompt("Hoeveel eenpersoonsbedden?"),
-														new IntegerPrompt("Hoeveel kinderbedden?"), 
-														new IntegerPrompt("Hoeveel tweepersoonsbedden?"), 
+														new MultipleIntPrompt("Welke bedden moeten er in de kamer zijn?", Bed.values()),
 														new BooleanPrompt("Roken?")}),
-	ANNULEERRESERVERING("Annuleren van een reservering",new Prompt[]{
+	ANNULEERRESERVERING("Annuleren van een reservering","annulleerReservering",new Prompt[]{
 														new IntegerPrompt("Wat is uw reserveringsnummer?")			
 	}),
-	REKENING( "Uitprinten van een rekening",new Prompt[]{
+	REKENING( "Uitprinten van een rekening","getRekening",new Prompt[]{
 														new IntegerPrompt("Wat is uw reserveringsnummer?")
 	});
 	
 	public static final char DELIM='\u0000';
-	private Prompt[] prompts;
+	private Prompt<?>[] prompts;
 	private String menuText;
-	private Command(String text, Prompt[] requiredInput){
+	private String methodName;
+	private Command(String text, String methodName, Prompt<?>[] requiredInput){
 		prompts=requiredInput;
+		this.methodName=methodName;
 		menuText=text;
 	}
 	
@@ -41,7 +37,21 @@ public enum Command {
 		return menuText;
 	}
 	
-	public Prompt[] getPrompts(){
+	public Prompt<?>[] getPrompts(){
 		return prompts;
+	}
+	
+	public Class<?>[] getArgumentTypes(){
+		Class<?>[] argTypes=new Class<?>[getPrompts().length];
+		for(int i=0;i<getPrompts().length;i++){
+			argTypes[i]=getPrompts()[i].getPromptType();
+		}
+		
+		return argTypes;
+	}
+	
+	public String getCallableMethodName(){
+		
+		return methodName;		
 	}
 }

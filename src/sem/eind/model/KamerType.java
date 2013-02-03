@@ -65,7 +65,7 @@ public class KamerType {
 		return bedden;
 	}
 	
-	public boolean containsBeds(int[] bednumbers) throws IllegalArgumentException{
+	public boolean containsBeds(Integer[] bednumbers) throws IllegalArgumentException{
 		if(bednumbers.length!=Bed.values().length)
 			throw new IllegalArgumentException("Het aantal bednummers in int[] bednummers moet gelijk zijn aan het aantal verschillende bedden in Kamertype.Bed");
 		for(int i=0;i<bednumbers.length;i++){

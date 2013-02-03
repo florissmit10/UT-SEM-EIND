@@ -1,9 +1,14 @@
 package sem.eind.server;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import ocsf.server.AbstractServer;
 import ocsf.server.ConnectionToClient;
-import sem.eind.net.Command;
-import sem.eind.net.ErrorCodes;
+import sem.eind.client.prompt.Prompt;
+import sem.eind.model.*;
+import sem.eind.net.*;
 
 public class HRServer extends AbstractServer {
 	 //Class variables *************************************************
@@ -13,6 +18,8 @@ public class HRServer extends AbstractServer {
 	   */
 	  final public static int DEFAULT_PORT = 5555;
 	
+	  
+	  private Hotel hotel=new Hotel();
 	
 	public HRServer(int port) {
 		super(port);
@@ -21,18 +28,21 @@ public class HRServer extends AbstractServer {
 
 	@Override
 	protected void handleMessageFromClient(Object msg, ConnectionToClient client) {
-		
-		String[] args =((String) msg).split(" ");
+		String[] args =((String) msg).split(""+Command.DELIM);
+		System.out.println(args);	
 		ErrorCodes error=null;
 		Command command;
 		try {
 			command = 	Command.values()[Integer.parseInt(args[0])];
 			error = 	ErrorCodes.values()[Integer.parseInt(args[1])];
-			handleCommand(command, error, args,client);
+			String[] arguments=new String[args.length-2];
+			for(int i=0;i<args.length-2;i++){
+				arguments[i]=args[i+2];
+			}
+			handleCommand(command, error, arguments,client);
 		} catch (NumberFormatException e) {
-			// TODO: handle exception			
+			System.out.println("Commando gekregen van client: "+client.getName()+" waarvan de eerste en/of tweede argumenten geen nummer is");			
 		}
-		
 	}
 
 	  /**
@@ -60,7 +70,7 @@ public class HRServer extends AbstractServer {
 	   */
 	  @Override
 		protected void clientConnected(ConnectionToClient client) {
-		  System.out.println("Client");
+		  System.out.println("Client connected");
 	
 		  super.clientConnected(client);
 		}
@@ -84,27 +94,43 @@ public class HRServer extends AbstractServer {
 	  
 	  public void handleCommand(Command command, ErrorCodes error, String[] args, ConnectionToClient client){
 
-	//TODO invulling geven aan methoden.
-	System.out.println(command+" "+ error+" "+ args+" "+client);
-	  switch (command) {
-	  	case CHECKIN:
+		  System.out.println(command.name()+" "+ error.name()+" "+ args+" "+client);
+			try {
+				Method methodToExecute = hotel.getClass().getDeclaredMethod(command.getCallableMethodName(),command.getArgumentTypes());
+				String response=(String)methodToExecute.invoke(hotel, unWrapArguments(command.getPrompts(), args));
+				client.sendToClient(response);
 			
-			break;
-		case CHECKUIT:
-			
-			break;
-		case RESERVERING:
-			
-			break;
-		case ANNULEERRESERVERING:
-			
-			break;
-		case REKENING:
-		
-			break;
-
-		default:
-			break;
+			}catch(InvocationTargetException e){
+				if(e.getCause() instanceof HotelException){
+					handleException((HotelException)e.getCause(),client);
+				}
+			}
+			catch(Exception e){				
+					e.printStackTrace();					
+			}
+}
+	  private Object[] unWrapArguments(Prompt<?>[] prompts,String[] args){
+		  Object[] returnable=new Object[args.length];
+		  for(int i=0;i<returnable.length;i++){
+			  returnable[i]=prompts[i].parseObjectFromString(args[i]);
+		  }
+		  
+		  return returnable;
+	  }
+	  
+	  private void handleException(HotelException e, ConnectionToClient client){
+		  sendCommandToClient(e.getError(), new String[]{e.getClassname()}, client);
+		  }
+	    
+	  private void sendCommandToClient(ErrorCodes error, String[] args, ConnectionToClient client){
+		  String message=""+Command.DELIM+error.ordinal()+Command.DELIM;
+		  for(String s:args){
+			  message=message+Command.DELIM+s;
+		  }
+		  try {
+			client.sendToClient(message);
+		} catch (IOException e) {
+			System.out.println("Er is een probleem met het verzenden van een commando naar de client");
 		}
 	  }
 	

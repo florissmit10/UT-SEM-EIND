@@ -1,6 +1,8 @@
 package sem.eind.model;
 
 
+import java.util.HashMap;
+
 import org.joda.time.LocalDate;
 
 import sem.eind.net.HotelException;
@@ -9,6 +11,10 @@ public class Reservering {
 	private KamerType kamerType;
 	private LocalDate dagVanVertrek;
 	private LocalDate dagVanAankomst;
+	private Integer reserveringsNummer;
+	
+	public static Integer RESERVERIGNSCOUNTER=1;
+	public static HashMap<Integer,Reservering> reserveringen;
 	
 	/**
 	 * 
@@ -25,6 +31,9 @@ public class Reservering {
 		kamerType=type;
 		dagVanAankomst=new LocalDate(year, month, day);
 		dagVanVertrek=new LocalDate(year,month, day).plusDays(numberOfDays);
+		reserveringsNummer=RESERVERIGNSCOUNTER;
+		reserveringen.put(reserveringsNummer, this);
+		RESERVERIGNSCOUNTER++;
 	}
 	
 	public boolean heeftOverlap(int year, int month, int day, int numberOfDays){
@@ -49,5 +58,18 @@ public class Reservering {
 	
 	public KamerType getKamerType(){
 		return kamerType;
+	}
+
+	public Integer getReserveringsNummer() {
+		return reserveringsNummer;
+	}
+	
+	public void annuleer(){
+		reserveringen.remove(reserveringsNummer);
+		getKamerType().getReserveringen().remove(this);
+	}
+	
+	public static Reservering getReserveringForNummer(Integer nummer){
+		return reserveringen.get(nummer);
 	}
 }
