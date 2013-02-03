@@ -1,6 +1,10 @@
 package sem.eind.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import sem.eind.model.KamerType.Bed;
 
 public class KamerType {
 	
@@ -8,15 +12,20 @@ public class KamerType {
 	
 	private final boolean rokenToegestaan;
 	
-	private final ArrayList<Bed> bedden;
+	private final HashMap<Bed,Integer> bedden=new HashMap<Bed, Integer>();
 	
 	private final ArrayList<Reservering> reserveringen=new ArrayList<Reservering>();
 	
 	private final double maximumprijs;
 		
-	public KamerType(boolean rokenToegestaan, ArrayList<Bed> bedden, double maxprijs){
+	public KamerType(boolean rokenToegestaan, int[] bedden, double maxprijs)throws IllegalArgumentException{
+		if(bedden.length!=Bed.values().length)
+			throw new IllegalArgumentException("Het aantal waarden in int[] bedden moet gelijk zijn aan het aantal Enums in Bed.");
 		this.rokenToegestaan=rokenToegestaan;
-		this.bedden=bedden;
+		for(int i=0;i<bedden.length;i++){
+			Bed bed=Bed.values()[i];
+			this.bedden.put(bed, bedden[i]);
+		}
 		this.maximumprijs=maxprijs;
 	}
 	
@@ -39,8 +48,8 @@ public class KamerType {
 	
 	public int getAantalSlaapplekken(){
 		int returnable=0;
-		for(Bed b:getBedden()){
-			returnable=+b.getNumberOfPersons();
+		for(Entry<Bed, Integer> entry:bedden.entrySet()){
+			returnable=returnable+entry.getValue()*entry.getKey().getNumberOfPersons();
 		}
 		return returnable;
 	}
@@ -52,8 +61,18 @@ public class KamerType {
 	
 
 	
-	public ArrayList<Bed> getBedden() {
+	public HashMap<Bed,Integer> getBedden() {
 		return bedden;
+	}
+	
+	public boolean containsBeds(int[] bednumbers) throws IllegalArgumentException{
+		if(bednumbers.length!=Bed.values().length)
+			throw new IllegalArgumentException("Het aantal bednummers in int[] bednummers moet gelijk zijn aan het aantal verschillende bedden in Kamertype.Bed");
+		for(int i=0;i<bednumbers.length;i++){
+			if(bednumbers[i]!=getBedden().get(Bed.values()[i]))
+				return false;
+		}
+		return true;
 	}
 
 	public ArrayList<Reservering> getReserveringen() {
@@ -83,6 +102,11 @@ public class KamerType {
 			return numberOfPersons;
 		}
 		public String getName() {
+			return name;
+		}
+		
+		@Override
+		public String toString(){
 			return name;
 		}
 	}
