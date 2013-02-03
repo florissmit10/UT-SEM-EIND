@@ -140,7 +140,7 @@ public class Hotel {
 	}
 	
 	public  void checkuit(Kamer k) throws HotelException{
-		if(k.getGasten().isEmpty())
+		if(k.getGasten()==null||k.getGasten().isEmpty())
 			throw new HotelException("Er zijn geen gasten in kamer "+k.getNummer(), ErrorCodes.NOTFOUND);
 
 		for(Gast g:k.getGasten()){
