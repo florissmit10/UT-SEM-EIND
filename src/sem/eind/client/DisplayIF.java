@@ -12,6 +12,9 @@ public interface DisplayIF
    * a UI.
    */
   public abstract void display(String message);
-  
+ 
+  /**
+   * hulpmethode die het menu uitprint.
+   */
   public void printMenu();
 }

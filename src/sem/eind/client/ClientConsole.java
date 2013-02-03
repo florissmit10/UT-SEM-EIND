@@ -67,7 +67,9 @@ public class ClientConsole implements DisplayIF
       }
     
     
-  
+  /**
+   * hulp methode die de input van de system.in afhandeld.
+   */
   private void handleInput() {
 	  while (true)
       {
@@ -81,7 +83,6 @@ public class ClientConsole implements DisplayIF
       	continue;
       }
       String result=""+command.ordinal()+Command.DELIM+ErrorCodes.NOERROR.ordinal();
-      System.out.println(result);
       for(Prompt<?> prompt:command.getPrompts()){
 			boolean promptFilled=false;
       	while(!promptFilled){
@@ -124,6 +125,9 @@ public class ClientConsole implements DisplayIF
 	  
 	  return line;
   }
+  /**
+   * hulpmethode die het menu uitprint.
+   */
   @Override
   public void printMenu(){
 	 display("Hotel reserverings systeem");
@@ -172,16 +176,4 @@ public class ClientConsole implements DisplayIF
     ClientConsole chat= new ClientConsole(host, port);
     chat.accept();  //Wait for console data
   }
-		
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
-
-//End of ClientConsole class

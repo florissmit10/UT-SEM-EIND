@@ -72,9 +72,6 @@ public class HRClient extends AbstractClient
 	  }
 		}
 
-
-
-
 /**
    * This method handles all data coming from the UI
    *
@@ -107,7 +104,9 @@ public class HRClient extends AbstractClient
     System.exit(0);
   }
   
-  
+  /**
+   * {@inheritDoc}
+   */
   @Override
 	protected void connectionException(Exception exception) {
 	  exception.printStackTrace();

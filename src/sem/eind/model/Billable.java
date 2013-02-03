@@ -4,7 +4,7 @@ public class Billable{
 	private double prijs;
 	private String beschrijving;
 	
-	public Billable(String beschrijving, double prijs){
+	public Billable(String beschrijving, double prijs) {
 		this.beschrijving=beschrijving;
 		this.prijs=prijs;
 	}

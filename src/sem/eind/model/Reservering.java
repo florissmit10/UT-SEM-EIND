@@ -37,7 +37,14 @@ public class Reservering {
 		reserveringen.put(reserveringsNummer, this);
 		RESERVERIGNSCOUNTER++;
 	}
-	
+	/**
+	 * Geeft true terug als de input data overlap hebben met de data van deze reservering.
+	 * @param year het te vergelijken jaar.
+	 * @param month de te vergelijken maand.
+	 * @param day de te vergelijken dag.
+	 * @param numberOfDays het aantal dagen verblijf(einddatum wordt uitgerekend aan de hand hiervan)
+	 * @return
+	 */
 	public boolean heeftOverlap(int year, int month, int day, int numberOfDays){
 		LocalDate aankomst=new LocalDate(year, month, day);
 		LocalDate vertrek=new LocalDate(year,month, day).plusDays(numberOfDays);
@@ -46,14 +53,12 @@ public class Reservering {
 		
 	}
 	/**
-	 * 
-	 * @param aankomst
-	 * @param vertrek
+	 * Geeft true terug als de input data overlap hebben met de data van deze reservering.
+	 * @param aankomst Datum van aankomst.
+	 * @param vertrek	Datum van vertrek.
 	 * @return
 	 */
 	public boolean heeftOverlap(LocalDate aankomst,LocalDate vertrek){
-		
-		//TODO goed testen met unit test
 		return (dagVanVertrek.compareTo(aankomst)>0&&dagVanVertrek.compareTo(vertrek)<0)||
 			(dagVanAankomst.compareTo(aankomst)>=0&&dagVanAankomst.compareTo(vertrek)>-1);
 	}
@@ -65,12 +70,16 @@ public class Reservering {
 	public Integer getReserveringsNummer() {
 		return reserveringsNummer;
 	}
-	
+	/**
+	 * Anulleert deze reservering.
+	 */
 	public void annuleer(){
 		reserveringen.remove(reserveringsNummer);
 		getKamerType().getReserveringen().remove(this);
 	}
-	
+	/**
+	 * geeft De reservering terug aan de hand van het reserveringsnummer
+	 */
 	public static Reservering getReserveringForNummer(Integer nummer){
 		return reserveringen.get(nummer);
 	}

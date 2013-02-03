@@ -45,7 +45,10 @@ public class KamerType {
 	public int getAantalKamers(){
 		return kamers.size();
 	}
-	
+	/**
+	 * geeft het aantal slaapplekken terug wat dit kamertype heeft
+	 * @return
+	 */
 	public int getAantalSlaapplekken(){
 		int returnable=0;
 		for(Entry<Bed, Integer> entry:bedden.entrySet()){

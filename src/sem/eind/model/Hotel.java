@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
+import sem.eind.model.KamerType.Bed;
 import sem.eind.net.ErrorCodes;
 import sem.eind.net.HotelException;
 
@@ -29,8 +30,9 @@ public class Hotel {
 		kamerTypes.add(new KamerType(false, new int[]{0, 2, 1}, 80));
 		int i=1;
 		for(KamerType type: kamerTypes){
-			new Kamer(type, i);
-			new Kamer(type,i+1);
+			Kamer k=new Kamer(type, i);
+			Kamer ka=new Kamer(type,i+1);
+			Kamer.addVerbinding(k, ka);
 			new Kamer(type,i+2);
 			i=i+10;
 		}
@@ -86,16 +88,14 @@ public class Hotel {
 	 * @throws HotelException
 	 */
 	public String checkin( Integer[] bedden, Boolean isRoken,String gastnamen, Boolean isHoogTarief) throws HotelException{
+		if(bedden.length==Bed.values().length)
+			throw new HotelException("Het aantal getallen in bedden moet gelijk zijn aan het totaal aantal instanties van Kamer.Bed", ErrorCodes.NOTFOUND);
 		KamerType type = getKamerType(bedden, isRoken);
-		Kamer k = getVrijeKamerForKamerType(type);
-		k.setHoogtarief(isHoogTarief);
+		Kamer k = getVrijeKamerForKamerType(type);	
 		List<Gast> gasten=getNieuweGastenFromCommaSeperatedString(gastnamen);
-		if(!k.getGasten().isEmpty())
-			throw new HotelException("Kamer "+k.getNummer()+" is bezet!", ErrorCodes.OCCUPIED);
-		for(Gast g:gasten){
-			if(g.getKamer()!=null)
-			throw new HotelException("gast "+g.getNaam()+" heeft al een kamer", ErrorCodes.OCCUPIED);
-		}
+		if(k==null)
+			throw new HotelException("Geen vrije kamers van het gevraagde type", ErrorCodes.OCCUPIED);
+		k.setHoogtarief(isHoogTarief);
 		k.setGasten(gasten);
 		for(Gast g:gasten){
 			g.setKamer(k);

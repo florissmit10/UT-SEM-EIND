@@ -1,7 +1,12 @@
 package sem.eind.client.prompt;
 
 import java.lang.reflect.ParameterizedType;
-
+/**
+ * Klasse die als verantwoordelijkheid heeft om invoer te controlerenop type's
+ * @author floris
+ *
+ * @param <T> Het type wat deze prompt moet opleveren.
+ */
 public abstract class Prompt<T>{
 	
 	private String promptMessage;

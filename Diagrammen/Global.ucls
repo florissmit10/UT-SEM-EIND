@@ -2,7 +2,7 @@
   generalizations="true" realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" corner="BOTTOM_RIGHT" language="java" name="sem.eind.model.Kamer" project="UT-SEM-EIND" 
     file="/UT-SEM-EIND/src/sem/eind/model/Kamer.java" binary="false">    
-    <position height="76" width="83" x="200" y="415"/>    
+    <position height="-1" width="-1" x="88" y="514"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -10,7 +10,7 @@
   </class>  
   <class id="2" corner="BOTTOM_RIGHT" language="java" name="sem.eind.model.KamerType" project="UT-SEM-EIND" 
     file="/UT-SEM-EIND/src/sem/eind/model/KamerType.java" binary="false">    
-    <position height="76" width="91" x="200" y="299"/>    
+    <position height="-1" width="-1" x="78" y="141"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -18,7 +18,7 @@
   </class>  
   <class id="3" corner="BOTTOM_RIGHT" language="java" name="sem.eind.model.Gast" project="UT-SEM-EIND" 
     file="/UT-SEM-EIND/src/sem/eind/model/Gast.java" binary="false">    
-    <position height="76" width="83" x="200" y="531"/>    
+    <position height="-1" width="-1" x="378" y="542"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -26,7 +26,7 @@
   </class>  
   <class id="4" corner="BOTTOM_RIGHT" language="java" name="sem.eind.model.Hotel" project="UT-SEM-EIND" 
     file="/UT-SEM-EIND/src/sem/eind/model/Hotel.java" binary="false">    
-    <position height="76" width="83" x="200" y="183"/>    
+    <position height="-1" width="-1" x="674" y="175"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
@@ -34,26 +34,26 @@
   </class>  
   <class id="5" corner="BOTTOM_RIGHT" language="java" name="sem.eind.model.Reservering" project="UT-SEM-EIND" 
     file="/UT-SEM-EIND/src/sem/eind/model/Reservering.java" binary="false">    
-    <position height="-1" width="-1" x="479" y="329"/>    
+    <position height="-1" width="-1" x="857" y="531"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
   <association id="6">    
-    <end type="SOURCE" refId="5" navigable="false">      
-      <attribute id="7" name="kamerType"/>      
-      <multiplicity id="8" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="7" name="gasten"/>      
+      <multiplicity id="8" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="9">    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="10" name="gasten"/>      
-      <multiplicity id="11" minimum="0" maximum="2147483647"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="10" name="kamerType"/>      
+      <multiplicity id="11" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="12">    

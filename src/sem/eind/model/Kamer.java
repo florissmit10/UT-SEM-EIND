@@ -10,6 +10,8 @@ public class Kamer {
 	
 	private Rekening rekening=new Rekening();
 	
+	private Kamer verbiningNaar;
+	
 	private final int nummer;
 	
 	private boolean isHoogtarief=false;
@@ -55,6 +57,21 @@ public class Kamer {
 
 	public double getPrijs() {
 		return type.getMaximumprijs()*(isHoogtarief?1:0.75);
+	}
+
+	public Kamer getVerbiningNaar() {
+		return verbiningNaar;
+	}
+
+	public static void addVerbinding(Kamer k1, Kamer k2){
+		if(k1.getVerbiningNaar()==null&&k2.getVerbiningNaar()==null){
+		k1.setVerbiningNaar(k2);
+		k2.setVerbiningNaar(k1);
+		}
+	}
+	
+	public void setVerbiningNaar(Kamer verbiningNaar) {
+		this.verbiningNaar = verbiningNaar;
 	}
 
 	public void setHoogtarief(Boolean isHoogTarief) {
