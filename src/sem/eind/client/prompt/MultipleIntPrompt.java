@@ -12,7 +12,9 @@ public class MultipleIntPrompt extends Prompt<Integer[]>{
 		super(promptMessage);
 		this.fieldNames=fields;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isInputValid(String input) {
 		int[] inputNumber=new int[fieldNames.length];
@@ -29,7 +31,9 @@ public class MultipleIntPrompt extends Prompt<Integer[]>{
 		}
 		return true;
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getFormat() {
 		String format="";
@@ -38,7 +42,9 @@ public class MultipleIntPrompt extends Prompt<Integer[]>{
 		}
 		return "("+format+")";
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Integer[] parseObjectFromString(String string) throws NumberFormatException{
 		String[] stringArray=string.split(" ");
