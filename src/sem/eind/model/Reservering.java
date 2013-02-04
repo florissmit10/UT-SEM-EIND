@@ -60,7 +60,8 @@ public class Reservering {
 	 */
 	public boolean heeftOverlap(LocalDate aankomst,LocalDate vertrek){
 		return (dagVanVertrek.compareTo(aankomst)>0&&dagVanVertrek.compareTo(vertrek)<0)||
-			(dagVanAankomst.compareTo(aankomst)>=0&&dagVanAankomst.compareTo(vertrek)>-1);
+				   (dagVanAankomst.compareTo(aankomst)>0&&dagVanAankomst.compareTo(vertrek)<0)||
+				   (dagVanAankomst.compareTo(aankomst)<0&&dagVanVertrek.compareTo(aankomst)>0);
 	}
 	
 	public KamerType getKamerType(){

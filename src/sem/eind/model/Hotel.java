@@ -88,7 +88,7 @@ public class Hotel {
 	 * @throws HotelException
 	 */
 	public String checkin( Integer[] bedden, Boolean isRoken,String gastnamen, Boolean isHoogTarief) throws HotelException{
-		if(bedden.length==Bed.values().length)
+		if(bedden.length!=Bed.values().length)
 			throw new HotelException("Het aantal getallen in bedden moet gelijk zijn aan het totaal aantal instanties van Kamer.Bed", ErrorCodes.NOTFOUND);
 		KamerType type = getKamerType(bedden, isRoken);
 		Kamer k = getVrijeKamerForKamerType(type);	
@@ -120,7 +120,7 @@ public class Hotel {
 		for(Gast g:kamer.getGasten()){
 			g.setKamer(null);
 		}
-		kamer.setGasten(null);
+		kamer.setGasten(new ArrayList<Gast>());
 		return "Uitchecken uit kamer "+kamer.getNummer()+" is gelukt."+'\n'+kamer.getRekening().toString();
 	}
 	/**

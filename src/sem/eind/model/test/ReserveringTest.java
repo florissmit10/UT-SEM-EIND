@@ -9,7 +9,7 @@ public class ReserveringTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		KamerType type=new KamerType(true, new int[]{0,0,0},1.0);
-		reservering1=new Reservering(type, 2013, 2, 14, 2);
+		reservering1=new Reservering(type, 2013, 2, 14, 6);
 		super.setUp();
 	}
 
@@ -20,12 +20,12 @@ public class ReserveringTest extends TestCase {
 	}
 	
 	public void testOverlap(){
+		assertTrue(reservering1.heeftOverlap(2013,2,16 ,1));
 		assertTrue(reservering1.heeftOverlap(2013,2,15 ,1));
-		assertTrue(reservering1.heeftOverlap(2013,2,14 ,1));
 		//vlak er na
-		assertFalse(reservering1.heeftOverlap(2013,2,15 ,1));
+		assertFalse(reservering1.heeftOverlap(2013,2,12 ,1));
 		//vlak er voor
-		assertFalse(reservering1.heeftOverlap(2013,2,13 ,1));
+		assertFalse(reservering1.heeftOverlap(2013,2,22 ,1));
 		
 		//testen met andere maanden
 		assertFalse(reservering1.heeftOverlap(2013,1,16 ,1));
